@@ -1,0 +1,44 @@
+name: Build
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps: 
+    - uses: actions/checkout@v4
+    - name: Check for repeated values
+      env:
+        FILE: source
+      run: |
+        REPEATED=`grep -ve '^#' -ve '^$' $FILE | sort | uniq -d`
+        if [ -n "$REPEATED" ]; then
+          echo "${REPEATED}"
+          echo "::error::IP addresses are duplicated"
+          exit 1
+        fi
+  build:
+    name: Build list
+    runs-on: ubuntu-latest
+    needs: [test]
+    if: ${{ github.event_name == 'push' }}
+    steps: 
+    - uses: actions/checkout@v4
+      with:
+        ref: main
+    - uses: actions/checkout@v4
+      with:
+        ref: build
+        path: public
+    - name: Build list
+      run: ./build.sh
+    - name: Push
+      uses: actions-js/push@v1.4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        directory: public
