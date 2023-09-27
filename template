@@ -1,0 +1,13 @@
+#
+# duhow_blocklist
+#
+# ipv4 hash:ip ipset
+#
+# IP addresses detected in my managed systems.
+#
+# Maintainer      : duhow
+# Maintainer URL  : https://github.com/duhow/blocklist-ipsets
+#
+# File Date       : $DATE
+# Version         : $COMMIT
+#
