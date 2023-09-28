@@ -8,8 +8,8 @@
 # Maintainer      : duhow
 # Maintainer URL  : https://github.com/duhow/blocklist-ipsets
 #
-# File Date       : 2023-09-27 17:52:19 +0200
-# Version         : 62577e9
+# File Date       : 2023-09-28 09:10:05 +0200
+# Version         : 3034fcd
 #
 36.110.228.254
 65.49.1.92
@@ -22,6 +22,7 @@
 181.97.147.223
 193.201.9.109
 211.223.13.21
+170.64.183.100
 83.8.84.57
 218.92.0.0/24
 18.236.161.49
