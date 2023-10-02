@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# SETUP: ln -s ../../pre-commit .git/hooks/pre-commit
+
+_fail(){ echo "::error::$@"; FAIL=1; }
+_fail_exit(){ _fail "$@"; exit 1; }
+
+test_list_has_unique_ip_addrs(){
+  FILE="source"
+
+  REPEATED=`grep -ve '^#' -ve '^$' $FILE | sort | uniq -d`
+  if [ -n "$REPEATED" ]; then
+    echo "${REPEATED}"
+    _fail "IP addresses are duplicated"
+  fi
+}
+
+# ---
+
+FAIL=0
+function_names=$(declare -F | awk '{print $3}')
+for func in $function_names; do
+  if [[ $func == test_* ]]; then
+    echo "Executing function: $func"
+    $func
+    echo "--------"
+  fi
+done
+
+if [ "$FAIL" = "1" ]; then
+  exit 1
+fi

@@ -12,16 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
     - uses: actions/checkout@v4
-    - name: Check for repeated values
-      env:
-        FILE: source
-      run: |
-        REPEATED=`grep -ve '^#' -ve '^$' $FILE | sort | uniq -d`
-        if [ -n "$REPEATED" ]; then
-          echo "${REPEATED}"
-          echo "::error::IP addresses are duplicated"
-          exit 1
-        fi
+    - name: Run tests
+      run: ./pre-commit
   build:
     name: Build list
     runs-on: ubuntu-latest
