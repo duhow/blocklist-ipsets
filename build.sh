@@ -2,6 +2,7 @@
 
 set -eu
 
+FILE_SOURCE=source
 TARGET=public/blocklist.ipset
 mkdir -p public
 
@@ -13,8 +14,10 @@ else
   DATE=`date`
   COMMIT="latest"
 fi
+ENTRIES=`grep -ve '^#' -ve '^$' $FILE_SOURCE | wc -l`
 
-export DATE COMMIT
+export DATE COMMIT ENTRIES
 
 envsubst < template > $TARGET
-grep -ve '^#' -ve '^$' source >> $TARGET
+
+grep -ve '^#' -ve '^$' $FILE_SOURCE >> $TARGET
