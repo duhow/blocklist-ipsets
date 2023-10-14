@@ -15,6 +15,9 @@ test_list_has_unique_ip_addrs(){
   fi
 }
 
+# Filter:
+# grep -vFf duplicated_list.txt new_list.txt | awk '{print $1}' > final_list.txt
+
 # ---
 
 FAIL=0
