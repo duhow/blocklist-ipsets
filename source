@@ -69,6 +69,7 @@
 129.226.0.0/16 # TencentCloud / China
 137.184.0.0/16 # DigitalOcean
 139.59.0.0/16 # DigitalOcean
+141.98.11.0/24 # Hostbaltic (Lithuania)
 143.110.128.0/17 # DigitalOcean
 143.198.0.0/16 # DigitalOcean
 143.244.128.0/17 # DigitalOcean
