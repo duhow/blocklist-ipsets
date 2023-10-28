@@ -5,9 +5,9 @@
 _fail(){ echo "::error::$@"; FAIL=1; }
 _fail_exit(){ _fail "$@"; exit 1; }
 
-test_list_has_unique_ip_addrs(){
-  FILE="source"
+FILE="source"
 
+test_0_list_has_unique_ip_addrs(){
   REPEATED=`grep -ve '^#' -ve '^$' $FILE | sort | uniq -d`
   if [ -n "$REPEATED" ]; then
     echo "${REPEATED}"
@@ -17,6 +17,32 @@ test_list_has_unique_ip_addrs(){
 
 # Filter:
 # grep -vFf duplicated_list.txt new_list.txt | awk '{print $1}' > final_list.txt
+
+test_1_ip_is_valid(){
+  # extract only up to first space, exclude comments (hopefully)
+  IP_LIST=`grep -ve '^#' -ve '^$' $FILE | awk '{print $1}'`
+  while IFS= read -r ip; do
+    # count how many dots are in string
+    dots="${ip//[^.]/}"
+    if [ "${#dots}" -ne 3 ]; then
+      _fail "Invalid IP address: $ip"
+      continue
+    fi
+
+    IFS='.' read -r -a blocks <<< "$ip"
+    for block in "${blocks[@]}"; do
+      if ! [[ $block =~ ^[0-9]+(\/[0-9]+)?$ ]]; then
+        _fail "Invalid IP address: $ip"
+        continue 2  # Skip to the next IP address
+      fi
+
+      if ((block < 0 || block > 255)); then
+        _fail "Invalid IP address: $ip"
+        continue 2  # Skip to the next IP address
+      fi
+    done
+  done <<< $IP_LIST
+}
 
 # ---
 
